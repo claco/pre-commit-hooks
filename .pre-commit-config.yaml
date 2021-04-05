@@ -1,9 +1,1 @@
 ---
-repos:
-  - id: check-require-rebase
-    name: Check if Rebase is Required
-    description: This hook checks to see if the current repo requires a rebase.
-    entry: check-require-rebase
-    language: python
-    always_run: true
-    pass_filenames: false

@@ -1,0 +1,20 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "pre-commit-hooks"
+version = "0.0.0"
+description = "Pre-Commit Hooks"
+authors = [
+    "Chris Laco <claco@chrislaco.com>",
+]
+packages = [
+    { include = "pre_commit_hooks" }
+]
+
+[tool.poetry.dependencies]
+gitpython = "*"
+
+[tool.poetry.scripts]
+check-rebase-required = "pre_commit_hooks.check_rebase_required:main"

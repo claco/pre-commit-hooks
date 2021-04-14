@@ -17,7 +17,9 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
+coverage = "*"
 gitpython = "*"
+jinja2 = "*"
 toml = "*"
 
 [tool.poetry.scripts]

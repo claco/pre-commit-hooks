@@ -15,6 +15,7 @@ authors = [
 packages = [
     { include = "pre_commit_hooks" }
 ]
+include = ["pre_commit_hooks/static/*.j2"]
 
 [tool.poetry.dependencies]
 coverage = "*"

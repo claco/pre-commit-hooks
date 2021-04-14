@@ -81,6 +81,20 @@ class TestCheckAuthors(tests.GitTestCase):
             ],
         )
 
+    def test_check_authors(self):
+        self.args["--authors-format"] = "jinja"
+        self.args["--authors-template"] = "tests/fixtures/templates/AUTHORS.j2"
+
+        self.assertCheckReturns(0)
+        self.assertFileContains(
+            self.authors_file,
+            [
+                "Test Author <test.author@example.com>",
+                "Zeta Author <better.author@example.com>",
+                "Anne Author <anne.author@example.com>",
+            ],
+        )
+
 
 if __name__ == "__main__":
     exit(unittest.main())

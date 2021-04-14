@@ -89,9 +89,9 @@ class TestCheckAuthors(tests.GitTestCase):
         self.assertFileContains(
             self.authors_file,
             [
-                "Test Author <test.author@example.com>",
-                "Zeta Author <better.author@example.com>",
-                "Anne Author <anne.author@example.com>",
+                "Test Author <test.author@example.com> x5",
+                "Zeta Author <better.author@example.com> x2",
+                "Anne Author <anne.author@example.com> x1",
             ],
         )
 

@@ -2,6 +2,9 @@
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.black]
+line-length = 120
+
 [tool.poetry]
 name = "pre-commit-hooks"
 version = "0.0.0"
@@ -15,6 +18,12 @@ packages = [
 
 [tool.poetry.dependencies]
 gitpython = "*"
+toml = "*"
 
 [tool.poetry.scripts]
-check-rebase-required = "pre_commit_hooks.check_rebase_required:main"
+check-authors = "pre_commit_hooks.check_authors:main"
+check-changelog = "pre_commit_hooks.check_changelog:main"
+
+[tool.pre_commit_hooks.check_authors]
+
+[tool.pre_commit_hooks.check_changelog]

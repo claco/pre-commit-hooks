@@ -1,8 +1,16 @@
 ---
-- id: check-rebase-required
-  name: Check if rebase is required
-  description: This hook checks to see if the current repo requires a rebase.
-  entry: check-rebase-required
+- id: check-authors
+  name: Ensure the authors information is up to date
+  description: This ensures author information is up to date with the repository authors.
+  entry: check-authors
+  language: python
+  always_run: true
+  pass_filenames: false
+
+- id: check-changelog
+  name: Ensure the changelog information is up to date
+  description: This ensures changelog is up to date with the repository changes.
+  entry: check-changelog
   language: python
   always_run: true
   pass_filenames: false

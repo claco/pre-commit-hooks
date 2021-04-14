@@ -81,7 +81,7 @@ class TestCheckAuthors(tests.GitTestCase):
             ],
         )
 
-    def test_check_authors(self):
+    def test_check_authors_jinja_template(self):
         self.args["--authors-format"] = "jinja"
         self.args["--authors-template"] = "tests/fixtures/templates/AUTHORS.j2"
 

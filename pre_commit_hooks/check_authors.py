@@ -1,9 +1,7 @@
 import argparse
 import git
 import jinja2
-import json
 import os.path
-import pkgutil
 import re
 from typing import Optional
 from typing import Sequence

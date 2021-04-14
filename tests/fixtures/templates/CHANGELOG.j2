@@ -1,0 +1,8 @@
+# Changelog
+
+{% for tag in tags %}
+## [{{ tag.name }}] - {{ tag.date }}
+{% for change in changes[tag.name] %}
+- {{ change }}
+{% endfor %}
+{% endfor %}

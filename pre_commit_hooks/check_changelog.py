@@ -1,5 +1,6 @@
 import argparse
 import git
+import jinja2
 import re
 from typing import Optional
 from typing import Sequence
@@ -59,6 +60,7 @@ def main(argv: Optional[Sequence[str]] = []) -> int:
             file.write(contents)
     else:
         with open(args.changelog_file, mode="+w", encoding="UTF-8") as file:
+            file.write("# Changelog")
             for tag in tags:
                 name = tag["name"]
                 date = tag["date"]

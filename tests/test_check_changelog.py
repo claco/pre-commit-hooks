@@ -27,6 +27,28 @@ class TestCheckChangelog(tests.GitTestCase):
         self.assertFileContains(
             self.changelog_file,
             [
+                "# Changelog",
+                "## [Unreleased] - 2021-04-14",
+                "- Added 3.txt",
+                "- Added 2.txt",
+                "- Added 1.txt",
+                "## [v0.0.2] - 2021-04-14",
+                "- Added 2.txt",
+                "- Added 1.txt",
+                "## [v0.0.1] - 2021-04-14",
+                "- Added 1.txt",
+            ],
+        )
+
+    def test_check_changelog_jinja_template(self):
+        self.args["--changelog-format"] = "jinja"
+        self.args["--changelog-template"] = "tests/fixtures/templates/CHANGELOG.j2"
+
+        self.assertCheckReturns(0)
+        self.assertFileContains(
+            self.changelog_file,
+            [
+                "# Changelog",
                 "## [Unreleased] - 2021-04-14",
                 "- Added 3.txt",
                 "- Added 2.txt",

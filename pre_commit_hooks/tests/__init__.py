@@ -56,6 +56,10 @@ class GitTestCase(TestCase):
 
         return commits
 
+    @classmethod
+    def generateRelease(cls, tag):
+        return cls.repository.create_tag(tag)
+
     def assertCheckReturns(self, code):
         # TODO(claco): Hack Tuples Flatten
         args = list(itertools.chain.from_iterable(self.args.items()))

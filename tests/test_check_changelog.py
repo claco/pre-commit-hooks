@@ -7,15 +7,38 @@ from pre_commit_hooks.check_changelog import main as check_changelog
 
 
 class TestCheckChangelog(tests.GitTestCase):
-    def setUp(self):
-        pass
+    @classmethod
+    def setUpClass(cls):
+        super(TestCheckChangelog, cls).setUpClass()
 
-    def tearDown(self):
-        pass
+        cls.generateCommits(count=1)
+        cls.generateRelease("v0.0.1")
+        cls.generateCommits(count=2)
+        cls.generateRelease("v0.0.2")
+        cls.generateCommits(count=3)
+
+    def setUp(self):
+        self.changelog_file = os.path.join(self.folder.name, "CHANGELOG")
+        self.check = check_changelog
+        self.args = {"--changelog-file": self.changelog_file, "--repository": self.repository.working_dir}
 
     def test_check_changelog(self):
-        self.assertEqual(0, check_changelog())
+        self.assertCheckReturns(0)
+        self.assertFileContains(
+            self.changelog_file,
+            [
+                "## [Unreleased] - 2021-04-14",
+                "- Added 3.txt",
+                "- Added 2.txt",
+                "- Added 1.txt",
+                "## [v0.0.2] - 2021-04-14",
+                "- Added 2.txt",
+                "- Added 1.txt",
+                "## [v0.0.1] - 2021-04-14",
+                "- Added 1.txt",
+            ],
+        )
 
 
 if __name__ == "__main__":
-    unittest.main()
+    exit(unittest.main())

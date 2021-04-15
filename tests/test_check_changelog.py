@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from datetime import datetime
 import os
 import unittest
 import unittest.mock
@@ -21,6 +22,7 @@ class TestCheckChangelog(tests.GitTestCase):
         self.changelog_file = os.path.join(self.folder.name, "CHANGELOG")
         self.check = check_changelog
         self.args = {"--changelog-file": self.changelog_file, "--repository": self.repository.working_dir}
+        self.date = (datetime.now().date().strftime("%Y-%m-%d"))
 
     def test_check_changelog(self):
         self.assertCheckReturns(0)
@@ -28,14 +30,14 @@ class TestCheckChangelog(tests.GitTestCase):
             self.changelog_file,
             [
                 "# Changelog",
-                "## [Unreleased] - 2021-04-14",
+                "## [Unreleased] - %s" % self.date,
                 "- Added 3.txt",
                 "- Added 2.txt",
                 "- Added 1.txt",
-                "## [v0.0.2] - 2021-04-14",
+                "## [v0.0.2] - %s" % self.date,
                 "- Added 2.txt",
                 "- Added 1.txt",
-                "## [v0.0.1] - 2021-04-14",
+                "## [v0.0.1] - %s" % self.date,
                 "- Added 1.txt",
             ],
         )
@@ -49,15 +51,15 @@ class TestCheckChangelog(tests.GitTestCase):
             self.changelog_file,
             [
                 "# Changelog",
-                "## [Unreleased] - 2021-04-14",
-                "- [added] Added 3.txt",
-                "- [added] Added 2.txt",
-                "- [added] Added 1.txt",
-                "## [v0.0.2] - 2021-04-14",
-                "- [added] Added 2.txt",
-                "- [added] Added 1.txt",
-                "## [v0.0.1] - 2021-04-14",
-                "- [added] Added 1.txt",
+                "## [Unreleased] - %s" % self.date,
+                "- Added: Added 3.txt",
+                "- Added: Added 2.txt",
+                "- Added: Added 1.txt",
+                "## [v0.0.2] - %s" % self.date,
+                "- Added: Added 2.txt",
+                "- Added: Added 1.txt",
+                "## [v0.0.1] - %s" % self.date,
+                "- Added: Added 1.txt",
             ],
         )
 
@@ -71,14 +73,14 @@ class TestCheckChangelog(tests.GitTestCase):
             self.changelog_file,
             [
                 "# Changelog",
-                "## [Unreleased] - 2021-04-14",
+                "## [Unreleased] - %s" % self.date,
                 "- Added 3.txt",
                 "- Added 2.txt",
                 "- Added 1.txt",
-                "## [v0.0.2] - 2021-04-14",
+                "## [v0.0.2] - %s" % self.date,
                 "- Added 2.txt",
                 "- Added 1.txt",
-                "## [v0.0.1] - 2021-04-14",
+                "## [v0.0.1] - %s" % self.date,
                 "- Added 1.txt",
             ],
         )

@@ -23,12 +23,12 @@ class ChangeType(enum.Enum):
 
 
 class ChangeTypePatterns:
-    Added = "(add|added|new)"
-    Changed = "(change|changed)"
-    Deprecated = "(deprecate|deprecated|eol|end of life)"
-    Fixed = "(fix|fixed|fixes|fixing|resolved)"
-    Removed = "(remove|removed)"
-    Security = "(security|vulnerability|vulnerable|cve)"
+    Added = r"(add|new|creat|onboard)"
+    Changed = r"(bump|chang|disabl|updat|move|enabl|renam|revert|allow|upgrad|migrat|refact)"
+    Deprecated = r"(deprecat|eol|end of life)"
+    Fixed = r"(fix|resolv|correct)"
+    Removed = r"(remov|delet)"
+    Security = r"(security|vulnerabl|cve|auth|revok|access)"
 
 
 def fetch_changes(args):
@@ -48,16 +48,23 @@ def fetch_changes(args):
 
         if name.startswith("tags/"):
             name = name.replace("tags/", "")
+
             if "~" in name:
                 tag_commit = True
-                (tag, name) = name.split("~")
+                tag = name.split("~")[0]
+            elif "^" in name:
+                tag_commit = True
+                tag = name.split("^")[0]
             else:
                 tag_commit = False
                 tag = name
 
+            summary = label_change(args, commit.summary)
+
             if re.match(args.tag_filter, tag):
-                summary = label_change(args, commit.summary)
                 changes[tag].append({"summary": summary})
+            else:
+                changes["Unreleased"].append({"summary": summary})
         else:
             summary = label_change(args, commit.summary)
             changes["Unreleased"].append({"summary": summary})
@@ -66,13 +73,22 @@ def fetch_changes(args):
 
 
 def label_change(args, content):
+    content = content.capitalize()
+    content = re.sub("\s+", content, " ")
+
     if args.label_changes:
-        if not re.match("^[.*]\s+.*", content):
+        if re.match("^.*:\s+", content):
+            return content
+        # elif re.match("^\[.*\]\s+", content):
+        #     return "%s: %s" % ("Braces", content)
+        else:
             for changeType in ChangeType:
                 pattern = getattr(ChangeTypePatterns, changeType.name)
-                if re.match(pattern, content, re.IGNORECASE + re.DOTALL):
-                    content = "[%s] %s" % (changeType.name.lower(), content)
-    
+                if re.findall(pattern, content, re.IGNORECASE|re.DOTALL|re.MULTILINE):
+                    return "%s: %s" % (changeType.name, content)
+
+            return "%s: %s" % ("Changed", content)
+
     return content
 
 
@@ -99,7 +115,7 @@ def main(argv: Optional[Sequence[str]] = []) -> int:
             file.write(contents)
     else:
         with open(args.changelog_file, mode="+w", encoding="UTF-8") as file:
-            file.write("# Changelog")
+            file.write("# Changelog\n")
             for tag in tags:
                 name = tag["name"]
                 date = tag["date"]

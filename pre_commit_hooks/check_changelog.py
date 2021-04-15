@@ -94,7 +94,7 @@ def label_change(args, content):
 
 def main(argv: Optional[Sequence[str]] = []) -> int:
     parser = argparse.ArgumentParser("Check and update changelog information in various formats.")
-    parser.add_argument("--changelog-file", type=str, default="CHANGELOG")
+    parser.add_argument("--changelog-file", type=str, default="CHANGELOG.md")
     parser.add_argument("--changelog-format", type=str, default="text", choices=["text", "jinja"])
     parser.add_argument("--changelog-template", type=str, default="CHANGELOG.j2")
     parser.add_argument("--label-changes", nargs='?', const=True, default=False)

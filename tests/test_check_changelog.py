@@ -40,6 +40,28 @@ class TestCheckChangelog(tests.GitTestCase):
             ],
         )
 
+
+    def test_check_changelog_label_changes(self):
+        self.args["--label-changes"] = "True"
+
+        self.assertCheckReturns(0)
+        self.assertFileContains(
+            self.changelog_file,
+            [
+                "# Changelog",
+                "## [Unreleased] - 2021-04-14",
+                "- [added] Added 3.txt",
+                "- [added] Added 2.txt",
+                "- [added] Added 1.txt",
+                "## [v0.0.2] - 2021-04-14",
+                "- [added] Added 2.txt",
+                "- [added] Added 1.txt",
+                "## [v0.0.1] - 2021-04-14",
+                "- [added] Added 1.txt",
+            ],
+        )
+
+
     def test_check_changelog_jinja_template(self):
         self.args["--changelog-format"] = "jinja"
         self.args["--changelog-template"] = "tests/fixtures/templates/CHANGELOG.j2"
